@@ -1,0 +1,24 @@
+This directory contains several example programs to run in the PZAB interpreter.
+
+hello.pzab
+----------
+Outputs "Hello, world!".
+
+memtest.pzab
+------------
+This fills all 256 memory cells with 1s, and then with 0s.
+
+adder.pzab
+----------
+Takes 2 integers from the user and outputs their sum.
+This uses a standard ripple carry adder algorithm.
+
+twos.pzab
+---------
+Takes an integer from the user and performs a two's complement on the number.
+Note: The output is unsigned.
+
+subber.pzab
+-----------
+Takes 2 integers from the user and outputs the first minus the second.
+This combines two's complement with the adder.

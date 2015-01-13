@@ -1,0 +1,171 @@
+PZAB Interpreter -Version 0.1a
+================
+Interpreter for the PZAB programming language written in C.
+Designed to be fast and portable.
+
+Copyright (C) 2015 Zac Herd <zacjherd@gmail.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+CONTENTS
+========
+1. What is PZAB?
+2. The PZAB Instruction Set
+3. Building/Using the Interpreter
+4. Getting Involved
+
+
+1. What is PZAB?
+================
+
+Overview:
+---------
+PZAB is an esoteric programming language designed by Zac Herd in 2013.
+It forces the programmer to think in terms of bits rather than integral
+values (or any other data types for that matter).
+The programmer manipulates a bounded-storage machine with 256 bytes of memory,
+and 5 registers of varying sizes by using single ASCII characters as
+instructions to the interpreter.
+
+
+The PZAB Machine Architecture:
+------------------------------
+As previously stated, the PZAB machine is a bounded-storage machine that has
+256 bytes of memory available.
+There are 5 registers: P0, P1, Z, A, and B.
+
+P0 is 8 bits in size and points to a location in the machine's memory.
+If P0 had the value of 0x16, for example, we would be referencing memory cell
+0x16.
+
+P1 is 3 bits in size and references a bit in the memory cell pointed to by P0.
+If P0 had the value 0x16, and P1 had the value 0x3, we would be referencing
+bit 0x3 of memory cell 0x16.
+
+Z is 1 bit in size. It is used as an accumulator for the logical operations
+the PZAB interpreter can perform. Z cannot be assigned to directly; only through
+such operations can it be assigned a value.
+Z can however, write values to bits in memory pointed to by P0 and P1, as well
+as to the A and B registers.
+
+A and B are both 1 bit in size. They can be assigned values from memory, or from
+the Z register. Both registers are used in logical operations, the results of
+which are then stored in Z. A and B cannot write values to memory.
+
+All memory and registers are initialised to 0x00;
+
+
+2. The PZAB Instruction Set
+===========================
+
+Overview:
+---------
+PZAB instructions are single ASCII characters. Any 'non-PZAB' characters found
+in scripts are ignored by the interpreter.
+
+When writing a PZAB script file, the preferred extension is .pzab
+
+
+Instructions:
+------------
++   - Increment P0
+-   - Decrement P0
+<   - Increment P1
+>   - Decrement P1
+A   - Assign bit P1 of cell P0 to A
+B   - Assign bit P1 of cell P0 to B
+a   - Assign Z to A
+b   - Assign Z to B
+Z   - Assign Z to bit P1 of cell P0
+!   - Perform logic NOT on Z
+&   - Perform logic AND on A and B, result stored in Z
+|   - Perform logic OR on A and B, result stored in Z
+_   - Perform logic XOR on A and B, result stored in Z
+.   - Get integer input and store in cell P0
+,   - Get ASCII character input and store in cell P0
+:   - Output cell P0 as integer
+;   - Output cell P0 as ASCII character
+?   - Only executes code up to matching '~' if Z is 0
+~   - See '~'
+1-9 - Executes code up to matching '0' this many times (1 loops infinitely)
+0   - See '1-9'
+
+
+3. Building/Using the PZAB Interpreter
+======================================
+
+General Build Information:
+--------------------------
+The Makefile for the PZAB interpreter is arranged so that variables which will
+likely be modified are near the top.
+By default, the -g compiler option is set (see CFLAGS). This is intended for
+a debug build, and to get a faster execution time, it is recommended that you
+change this to -O3
+
+The PZAB interpreter uses no external libraries, so the only dependencies are
+the standard C libraries.
+
+Targets are:
+    all         - default 'make' target, builds pzab
+    install     - installs pzab to selected folder (default=/usr/local/bin)
+    uninstall   - removes pzab from selected folder
+    clean       - removes all compiled binary files in bin and obj
+
+
+Building on Linux:
+------------------
+The Makefile is already configured to compile using gcc.
+Just run 'make' in the root pzab directory.
+
+
+Building on Windows:
+--------------------
+Windows users will likely need to change several settings in the Makefile to
+build:
+The target should have an .exe extension appended in order to execute.
+The compiler must be changed accordingly (likely 'mingw-gcc' or 'msvc').
+The install dir must be changed to a valid windows folder.
+
+After changing makefile settings according to your system, use your C compiler
+to build (if you do not have one, I recommend either MinGW or Cygwin).
+
+
+Troubleshooting:
+----------------
+If after following the instructions above, and checking your compiler's manual,
+you are still having problems building the PZAB interpreter, feel free to
+contact me using zacjherd@gmail.com and I will do my best to help.
+
+Remember, Google is your friend. ;)
+
+
+Running the Interpreter:
+------------------------
+Once built, running the interpreter is as simple as:
+$'pzab script.pzab'
+
+Where pzab is the built executable, and script.pzab is the script you want the
+interpreter to run.
+
+
+4. Getting Involved
+===================
+If you have any experience with C programming, and want to add new features or
+improve existing code, feel free to clone this repo and make your changes; I
+will respond to pull requests as quickly as I can.
+
+You may also improve the wiki at:
+https://esolangs.org/wiki/PZAB
