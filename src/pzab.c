@@ -199,7 +199,11 @@ int main (int argc, char* argv[])
                     break;
 
                 case '0': // loop break
-                    if(loops->count != 0)
+                    if(loops->count == 10)
+                    {
+                        inst = loops->inst;
+                    }
+                    else if(loops->count != 0)
                     {
                         loops->count--;
                         inst = loops->inst;
